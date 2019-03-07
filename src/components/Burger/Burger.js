@@ -1,4 +1,7 @@
 import React from 'react';
+// Wrap component with withRouter to get access to history, location and match
+// Needed if working in a component that is not directly rendered by <Route />
+// import { withRouter } from 'react-router-dom';
 
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 import classes from './Burger.module.css';
