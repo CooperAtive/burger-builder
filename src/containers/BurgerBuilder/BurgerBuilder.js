@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
@@ -107,29 +108,7 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    // this.setState({ loading: true });
-    // const order = {
-    //   ingredients: this.state.ingredients,
-    //   price: this.state.totalPrice,
-    //   customer: {
-    //     name: 'Cooper T',
-    //     address: {
-    //       street: 'Teststreet 1',
-    //       zipCode: '12345',
-    //       country: 'USA'
-    //     },
-    //     email: 'test@test.com',
-    //   },
-    //   deliveryMethod: 'fastest'
-    // }
-    // axios.post('/orders.json', order)
-    //   .then(response => {
-    //     this.setState({ loading: false, purchasing: false });
-    //   })
-    //   .catch(error => {
-    //     this.setState({ loading: false, purchasing: false });
-    //   });
-    this.props.history.push('/checkout');
+    this.setState({ purchaseContinued: true });
   }
 
   render() {
@@ -169,12 +148,29 @@ class BurgerBuilder extends Component {
       orderSummary = <Spinner />
     };
 
+    let purchaseContinueRedirect = null;
+    if (this.state.purchaseContinued) {
+      let ingredientsParams = new URLSearchParams();
+      for (let i in this.state.ingredients) {
+        ingredientsParams.set(i, this.state.ingredients[i]);
+      };
+      ingredientsParams.set('price', this.state.totalPrice);
+      purchaseContinueRedirect = (
+        <Redirect 
+          to={{
+            pathname: '/checkout',
+            search: ingredientsParams.toString()
+          }} />
+      );
+    }
+
     return (
       <Aux>
         <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
           { orderSummary }
         </Modal>
         { burger }
+        { purchaseContinueRedirect }
       </Aux>
     );
   }
