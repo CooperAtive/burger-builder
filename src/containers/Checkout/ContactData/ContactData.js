@@ -6,7 +6,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Button from '../../../components/UI/Button/Button';
 import Input from '../../../components/UI/Input/Input';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
-import * as actionTypes from '../../../store/actions';
+import * as actions from '../../../store/actions';
 import classes from './ContactData.module.css';
 
 class ContactData extends Component {
@@ -87,7 +87,7 @@ class ContactData extends Component {
             { value: 'cheapest', displayValue: 'Cheapest' },
           ]
         },
-        value: 'cheapest',
+        value: 'fastest',
         validation: {},
         valid: true
       },
@@ -188,15 +188,15 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
-    price: state.totalPrice,
-    loading: state.loading
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice,
+    loading: state.order.loading
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger: (orderData) => dispatch(actionTypes.purchaseBurger(orderData))
+    onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
   };
 };
 
